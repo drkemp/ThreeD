@@ -4,10 +4,10 @@ $fn=25;
 
 boxwidth=100;         // width of inside of box 
 boxdepth=120;         // depth of outside of box
-boxheight=41;         // height of inside of box
+boxheight=40;         // height of inside of box
 boxradius=3;          // radius of the box and plate corners
-boxthickness=1.5;     // material thickness for box and plates
-ribthickness=1.5;     // thickness of the front & back ribs
+boxthickness=1.25;    // material thickness for box and plates
+ribthickness=1.25;    // thickness of the front & back ribs
 riblip=2;             // width of edge around faceplates
 standoff_height=7;    // PCB standoffs
 
