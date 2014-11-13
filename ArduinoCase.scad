@@ -9,18 +9,20 @@ boxradius=3;          // radius of the box and plate corners
 boxthickness=1.25;    // material thickness for box and plates
 ribthickness=1.25;    // thickness of the front & back ribs
 paneledge=0.8;        // thickness of the inserted edge of front & back panels
-                      // the gap it goes in is boxthickness
 
 riblip=2;             // width of edge around faceplates
 standoff_height=7;    // PCB standoffs
+standoff_screw_rad=1; // M2 x0.4 screws
 
 postradius=3;         // top radius of mounting posts
 postinset=boxdepth/6; // distance the posts are in from the ends
 guidewidth=1;         // thickness of the tabs on the sides
-screwheaddepth=3;     // depth of hole for the screw heads
-screwheadradius=2.5;  // radius of hole for the screw heads
-screwthreadsize=1.0;  // hole size for threads of the case screws
-screwclearsize=1.5;   // hole size for clearance of the case screws
+
+// M3 x 0.5 case screws
+screwheaddepth=2.5;   // depth of hole for the screw heads
+screwheadradius=2.75; // radius of hole for the screw heads
+screwthreadsize=1.5;  // hole size for threads of the case screws
+screwclearsize=1.75;  // hole size for clearance of the case screws
 
 arduino_backset=boxdepth/2-ribthickness-boxthickness-15;
 arduino_vposition=-(boxheight/2-standoff_height-0.5);
@@ -28,7 +30,7 @@ arduino_hposition=-(boxwidth/2-2*postradius-54);
 
 // set the main elements to render
 include_keyholes=false;
-include_front=true;
+include_front=false;
 include_back=false;
 include_top=false;
 include_bottom=true;
@@ -135,7 +137,7 @@ if(include_arduino)
 if(include_arduino_standoffs)
 {
   translate([-arduino_backset,arduino_hposition,-(boxheight/2 -0.5)])
-    ArdunioStandoffs(standoff_height,1,2.75);
+    ArdunioStandoffs(standoff_height, standoff_screw_rad, 2.75);
 }
 if(include_bottom)
 {
