@@ -28,12 +28,18 @@ module DrillHoles(holelist){
     if(i[0]=="S") translate([i[1],i[2],0]) cube([i[3],i[4],i[5]]);
   }
 }
-module BoxPanel(width, height, thickness, radius, holelist)
+module BoxPanel(width, height, thickness, edge, edgethickness, radius, holelist)
 {
+  shim=(thickness-edgethickness)/2;
   difference()
   {
-    translate([0,0,1.75]) rotate([90,0,90])
-      RoundedBox(width,height,thickness,radius);
+    union()
+    {
+      translate([0,0,0]) rotate([90,0,90])
+        RoundedBox(width-edge*2,height-edge*2,thickness,radius);
+      translate([-shim,0,0]) rotate([90,0,90])
+        RoundedBox(width,height,edgethickness,radius);
+    }
     translate([-2,0,0]) rotate([90,0,90]) DrillHoles(holelist);
   }
 }

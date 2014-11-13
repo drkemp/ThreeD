@@ -8,6 +8,9 @@ boxheight=40;         // height of inside of box
 boxradius=3;          // radius of the box and plate corners
 boxthickness=1.25;    // material thickness for box and plates
 ribthickness=1.25;    // thickness of the front & back ribs
+paneledge=0.8;        // thickness of the inserted edge of front & back panels
+                      // the gap it goes in is boxthickness
+
 riblip=2;             // width of edge around faceplates
 standoff_height=7;    // PCB standoffs
 
@@ -25,7 +28,7 @@ arduino_hposition=-(boxwidth/2-2*postradius-54);
 
 // set the main elements to render
 include_keyholes=false;
-include_front=false;
+include_front=true;
 include_back=false;
 include_top=false;
 include_bottom=true;
@@ -145,10 +148,10 @@ if(include_top)
 if(include_front)
 {
   translate([-(boxdepth/2-ribthickness),0,0])
-    BoxPanel(boxwidth-0.25,boxheight,boxthickness,boxradius, frontHoles);
+    BoxPanel(boxwidth-0.25,boxheight,boxthickness,riblip+1,paneledge,boxradius, frontHoles);
 }
 if(include_back)
 {
   translate([boxdepth/2-ribthickness,0,0])
-    BoxPanel(boxwidth-0.25,boxheight,boxthickness,boxradius, backHoles);
+    BoxPanel(boxwidth-0.25,boxheight,boxthickness,riblip+1,paneledge,boxradius, backHoles);
 }
