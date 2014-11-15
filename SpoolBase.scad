@@ -19,20 +19,17 @@ module TrianglePost(face,height)
 module Beam(size, posn="center")
 {
   cube(size);
-  if(posn=="center") translate([-size[0],0,0]) cube([3*size[0],size[1]-4,size[0]]);
-  if(posn=="left")  translate([-size[0],0,0]) cube([2*size[0],size[1]-4,size[0]]);
-  if(posn=="right")  translate([0,0,0]) cube([2*size[0],size[1]-4,size[0]]);
+  if(posn=="center") translate([-size[0],0,0]) cube([3*size[0],size[1]-3,size[0]]);
+  if(posn=="left")  translate([-size[0],0,0]) cube([2*size[0],size[1]-2,size[0]]);
+  if(posn=="right")  translate([0,0,0]) cube([2*size[0],size[1]-2,size[0]]);
 }
-module Mount(height,width)
+module Mount(height,width,post,strut)
 {
   sideheight=height+10;
-  base=30;
-  face=30;
+  base=28;
+  face=20;
 
-  strut=8;
-  web=2;
-//  fillface=10;
-  post=50; // 1/2 the distance between posts
+  web=1.25;
   brace=sqrt(width*width+post*post)-2;
   angle=atan(post/width);
   difference()
@@ -94,6 +91,15 @@ module Mount(height,width)
     translate([post,0,12]) cylinder(r1=6,r2=1,h=8);
     translate([-post,0,0]) cylinder(r=6,h=12);
     translate([-post,0,12]) cylinder(r1=6,r2=1,h=8);
+
+      translate([-(post-strut/2-web*3/2),-(width-strut),0]) rotate([0,0,90])
+        cylinder(r=strut/2,h=base);
+      translate([(post-strut/2-web*3/2),-(width-strut),0]) rotate([0,0,90])
+        cylinder(r=strut/2,h=base);
+      translate([(post-strut/2-web*3/2),(width-strut)+web,0]) rotate([0,0,90])
+        cylinder(r=strut/2,h=base);
+      translate([-(post-strut/2-web*3/2),(width-strut)+web,0]) rotate([0,0,90])
+        cylinder(r=strut/2,h=base);
   }
 }
 module elbow(dia, rad, start,end)
@@ -114,24 +120,26 @@ module SupportArm(height,strut, post, pipe)
 {
   rad=30;
   strut2=strut/2;
-  angle=atan((post-strut2)/(height-strut-pipe/2));
+  angle=atan((post-strut)/(height-strut-pipe/2));
   zshift=rad*sin(angle);
 
   rotate([0,0,90])
   {
     elbow(strut*2,rad,0,angle);
-    translate([rad*(1-cos(angle)),0,zshift])
-      rotate([0,angle,0]) cylinder(r1=strut, r2=strut2,h=height-pipe/2-zshift-strut2);
-    translate([post-strut,0,height-pipe/2-zshift])
-      rotate([0,-90,180]) elbow(strut2*2,rad,0,90);
-//      rotate([90,0,0]) Ring(strut2,pipe);
+    translate([rad*(1-cos(angle)),0,zshift]) rotate([0,angle,0])
+//      difference(){
+        cylinder(r1=strut, r2=strut2,h=height-pipe/2-zshift-strut2);
+//        cylinder(r1=strut2, r2=.5,h=height-pipe/2-zshift-strut2);
+//      }
+    translate([post-strut,0,height-pipe/2-zshift+strut2/2])
+      rotate([0,-90,180]) elbow(strut2*2,pipe+strut2,0,90);
   }
 }
 module ReelSupport(width,post,strut, height)
 {
-  face=30;
-  web=2;
-  pipewidth=19;
+  face=20;
+  web=1.25;
+  pipewidth=17;
   // a base cylinder to start
   translate([-(post-strut/2-web*3/2),-(width-strut),0]) rotate([0,0,-90])
     SupportArm(height,strut,post,pipewidth);
@@ -143,7 +151,7 @@ module ReelSupport(width,post,strut, height)
     SupportArm(height,strut,post,pipewidth);
 }
 
+//  post=32; // 1/2 the distance between posts
 
-Mount(8,70);
-translate([0,0,30]) ReelSupport(70,50,8,105);
-
+Mount(4,58,32,5);
+translate([0,0,28]) ReelSupport(58,32,5,90);

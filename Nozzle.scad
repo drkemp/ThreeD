@@ -15,14 +15,14 @@ module hexblock(width, length)
 }
 
 // 1/8NPT = 27tpi, 10 threads, 0.405"OD
-module NPT_fitting(flength)
+module NPT_fitting(nutsize, flength)
 {
   mlength=flength*25.4;
 //  translate([0,0,-mlength/2])
   difference()
   {
-    hexblock(7/16*25.4,mlength);
-    translate([0,0,-mlength/2-1])cylinder(r=.125*25.4,h=mlength+3);
+    hexblock(nutsize,mlength);
+    translate([0,0,-mlength/2-1])cylinder(r=.1*25.4,h=mlength+3);
     english_thread(diameter=.405,threads_per_inch=27,length=flength,internal=true);
   }
 }
@@ -36,6 +36,7 @@ module pipe(inside,outside,length)
 }
 module base(depth,height,width)
 {
+  nutsize=depth;
   nozrad=1.5;
   nozinsiderad=0.75;
   nozlen=10;
@@ -47,7 +48,7 @@ module base(depth,height,width)
     union()
     {
        cube([depth,width,height],true);
-       translate([0,fitposn,height/2+4]) NPT_fitting(3/8);
+       translate([0,fitposn,height/2+4]) NPT_fitting(nutsize, 3/8);
        translate([0,nozposn,height/2]) cylinder(r=nozrad,h=10);
        translate([0,0,-4]) cube([depth,width,4],true);
     }
@@ -59,4 +60,4 @@ module base(depth,height,width)
     }
   }
 }
-base(7/16*25.4,4,35);
+base((1/2)*25.4, 4, 35);
