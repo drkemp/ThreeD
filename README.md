@@ -51,8 +51,14 @@ Hole definitions are a list of vectors with each vector as:
 
 Example: [["C",10,20,30,2]] will make a 30mm round hole 2mm deep at 10,20
 
-##SpoolBase ** NOT COMPLETE **
+##SpoolBase 
 
 ###Description
-This is a spool support for the Printrbot Simple Metal. This sits on top the Z posts to hold a typical spool.
+This is a spool support for the Printrbot Simple Metal. This sits on top the Z posts to hold a spool up to 96mm wide and about 230mm diameter (depending on the spool inner hole). It uses a 3/4" copper pipe for a spool mount.
+
+##JarLabel 
+
+###Description
+Prints a thin mask for painting a label on a glass jar.
+
 
