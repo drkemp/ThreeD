@@ -22,9 +22,24 @@ module Standoff(length, inside, outside)
     cylinder(r=inside, h=length);
   }
 }
-module DrillHoles(holelist){
+module RaiseBoss(holelist)
+{
+  for(i=holelist){
+    if(i[0]=="B") translate([i[1],i[2],0])
+    {
+      translate([0,0,i[4]])cylinder(r=i[7],h=i[6]);
+    }
+  }
+}
+module DrillHoles(holelist)
+{
   for(i=holelist){
     if(i[0]=="C") translate([i[1],i[2],0]) cylinder(r=i[3],h=i[4]);
+    if(i[0]=="B") translate([i[1],i[2],0])
+    {
+      cylinder(r=i[3],h=i[4]);
+      translate([0,0,i[4]])cylinder(r=i[5],h=i[6]);
+    }
     if(i[0]=="S") translate([i[1],i[2],0]) cube([i[3],i[4],i[5]]);
   }
 }
@@ -39,6 +54,7 @@ module BoxPanel(width, height, thickness, edge, edgethickness, radius, holelist)
         RoundedBox(width-edge*2,height-edge*2,thickness,radius);
       translate([-shim,0,0]) rotate([90,0,90])
         RoundedBox(width,height,edgethickness,radius);
+      translate([-2,0,0]) rotate([90,0,90])RaiseBoss(holelist);
     }
     translate([-2,0,0]) rotate([90,0,90]) DrillHoles(holelist);
   }

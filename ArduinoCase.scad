@@ -8,7 +8,7 @@ boxheight=40;         // height of inside of box
 boxradius=3;          // radius of the box and plate corners
 boxthickness=1.25;    // material thickness for box and plates
 ribthickness=1.25;    // thickness of the front & back ribs
-paneledge=0.8;        // thickness of the inserted edge of front & back panels
+paneledge=1.0;        // thickness of the inserted edge of front & back panels
 
 riblip=2;             // width of edge around faceplates
 standoff_height=7;    // PCB standoffs
@@ -30,18 +30,19 @@ arduino_hposition=-(boxwidth/2-2*postradius-54);
 
 // set the main elements to render
 include_keyholes=false;
-include_front=false;
+include_front=true;
 include_back=false;
 include_top=false;
-include_bottom=true;
+include_bottom=false;
 include_arduino=false;
-include_arduino_standoffs=true;
+include_arduino_standoffs=false;
 
 
-frontHoles=[["C",boxwidth/2-15,(boxheight/2-8),3.5,5],
-    ["C",boxwidth/2-15,-(boxheight/2-10),2.5,5],
-    ["S",arduino_hposition-19,arduino_vposition+2,13,11,5],
-    ["S",arduino_hposition-48,arduino_vposition+2,10,11,5]];
+frontHoles=[["C",boxwidth/2-15,(boxheight/2-13),4.5,5],
+    ["C",boxwidth/2-15,-(boxheight/2-10),3.0,5],
+    ["B",boxwidth/2-27,-(boxheight/2-10),3.6,2,4.17,5,6],
+    ["S",arduino_hposition-16,arduino_vposition+2,13,12,5],
+    ["S",arduino_hposition-44,arduino_vposition+2,10,12,5]];
 backHoles=[["C",boxwidth/2-15,(boxheight/2-8),3.5,5],
     ["S",boxwidth/2-20,-(boxheight/2-8),10,12,5]];
 
