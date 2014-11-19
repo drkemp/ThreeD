@@ -30,21 +30,20 @@ arduino_hposition=-(boxwidth/2-2*postradius-54);
 
 // set the main elements to render
 include_keyholes=false;
-include_front=true;
+include_front=false;
 include_back=false;
 include_top=false;
-include_bottom=false;
+include_bottom=true;
 include_arduino=false;
-include_arduino_standoffs=false;
+include_arduino_standoffs=true;
 
 
 frontHoles=[["C",boxwidth/2-15,(boxheight/2-13),4.5,5],
     ["C",boxwidth/2-15,-(boxheight/2-10),3.0,5],
     ["B",boxwidth/2-27,-(boxheight/2-10),3.6,2,4.17,5,6],
-    ["S",arduino_hposition-16,arduino_vposition+2,13,12,5],
-    ["S",arduino_hposition-44,arduino_vposition+2,10,12,5]];
-backHoles=[["C",boxwidth/2-15,(boxheight/2-8),3.5,5],
-    ["S",boxwidth/2-20,-(boxheight/2-8),10,12,5]];
+    ["S",arduino_hposition-19,arduino_vposition+2,13,12,5,0],
+    ["S",arduino_hposition-47,arduino_vposition+2,10,12,5,0]];
+backHoles=[["S",boxwidth/2-20,-(boxheight-22),6,18,5,2]];
 
 // ---- Main layout functions
 
@@ -151,10 +150,10 @@ if(include_top)
 if(include_front)
 {
   translate([-(boxdepth/2-ribthickness),0,0])
-    BoxPanel(boxwidth-0.25,boxheight,boxthickness,riblip+1,paneledge,boxradius, frontHoles);
+    BoxPanel(boxwidth-0.25,boxheight-1,boxthickness,riblip+1,paneledge,boxradius, frontHoles);
 }
 if(include_back)
 {
   translate([boxdepth/2-ribthickness,0,0])
-    BoxPanel(boxwidth-0.25,boxheight,boxthickness,riblip+1,paneledge,boxradius, backHoles);
+    BoxPanel(boxwidth-0.25,boxheight-1,boxthickness,riblip+1,paneledge,boxradius, backHoles);
 }

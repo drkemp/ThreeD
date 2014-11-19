@@ -42,12 +42,14 @@ The settings near the top of the file allow adjustment of all the basics:
 Holes are specified in 2D from the center of the panel. Currently round and square holes are supported, with round holes dimensioned to center and square holes to the top left corner.
 Hole definitions are a list of vectors with each vector as:
 
-* type "C" for circle, "S" for square
+* type "C" for circle, "S" for square, "B" for Boss
 * X position
 * Y position
 * Circle radius or square X
 * Circle depth or Square Y
-* square depth (not used for Circle)
+* square depth, boss inner radius (not used for Circle)
+* square corner radius, boss total height (not used for Circle)
+* boss outer radius (not used for circle or square)
 
 Example: [["C",10,20,30,2]] will make a 30mm round hole 2mm deep at 10,20
 
@@ -56,9 +58,15 @@ Example: [["C",10,20,30,2]] will make a 30mm round hole 2mm deep at 10,20
 ###Description
 This is a spool support for the Printrbot Simple Metal. This sits on top the Z posts to hold a spool up to 96mm wide and about 230mm diameter (depending on the spool inner hole). It uses a 3/4" copper pipe for a spool mount.
 
-##JarLabel 
+##JarLabel
 
 ###Description
 Prints a thin mask for painting a label on a glass jar.
+
+##SplitRing
+
+###Description
+This is a ring and pin suitable for something like hanging a shower curtain :)
+
 
 

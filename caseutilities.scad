@@ -40,7 +40,12 @@ module DrillHoles(holelist)
       cylinder(r=i[3],h=i[4]);
       translate([0,0,i[4]])cylinder(r=i[5],h=i[6]);
     }
-    if(i[0]=="S") translate([i[1],i[2],0]) cube([i[3],i[4],i[5]]);
+    if(i[0]=="S")
+    {
+      if(i[6]==0)  translate([i[1],i[2],0]) cube([i[3],i[4],i[5]]);
+      else
+        translate([i[1],i[2],i[5]/2]) RoundedBox(i[3],i[4],i[5],i[6]);
+    }
   }
 }
 module BoxPanel(width, height, thickness, edge, edgethickness, radius, holelist)
