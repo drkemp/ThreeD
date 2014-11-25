@@ -43,7 +43,11 @@ frontHoles=[["C",boxwidth/2-15,(boxheight/2-13),4.5,5],
     ["B",boxwidth/2-27,-(boxheight/2-10),3.6,2,4.17,5,6],
     ["S",arduino_hposition-19,arduino_vposition+2,13,12,5,0],
     ["S",arduino_hposition-47,arduino_vposition+2,10,12,5,0]];
-backHoles=[["S",boxwidth/2-20,-(boxheight-22),6,18,5,2]];
+backHoles=[["S",-(boxwidth/2-20),-(boxheight-22),6,18,5,2],
+    ["C",boxwidth/2-20,(boxheight/2-14),15.0/2,5],
+    ["C",boxwidth/2-31,(boxheight/2-14),2.6/2,5],
+    ["C",boxwidth/2-9,(boxheight/2-14),2.6/2,5],
+    ];
 
 // ---- Main layout functions
 
