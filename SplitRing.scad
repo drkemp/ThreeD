@@ -1,6 +1,6 @@
 ringwidth=9;
-ringinner=28;
-ringouter=32;
+ringinner=29;
+ringouter=33;
 
 support_len=16;
 slotwidth=4;
@@ -10,7 +10,7 @@ pindia=4;
 pinhead=1;
 pinlock=1.5;
 pincase=pinlength-pinhead-pinlock;
-pinbump=.45;
+pinbump=.55;
 
 
 $fn=50;
@@ -32,7 +32,7 @@ module splitring()
       cube([(ringwidth+support_len)*2,slotwidth,ringwidth+2],center=true);
     // drill the pin hole
     translate([ringouter/2+support_len-ringwidth/2-1,pinlength/2+1,0])
-      rotate([90,0,0]) cylinder(r=pindia/2+pinbump,h=pinlength+2);
+      rotate([90,0,0]) cylinder(r=pindia/2+pinbump/2,h=pinlength+2);
   }
 }
 
