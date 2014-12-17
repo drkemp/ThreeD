@@ -19,8 +19,8 @@ postinset=boxdepth/6; // distance the posts are in from the ends
 guidewidth=1;         // thickness of the tabs on the sides
 
 // M3 x 0.5 case screws
-screwheaddepth=2.5;   // depth of hole for the screw heads
-screwheadradius=2.75; // radius of hole for the screw heads
+screwheaddepth=3;   // depth of hole for the screw heads
+screwheadradius=2.8; // radius of hole for the screw heads
 screwthreadsize=1.5;  // hole size for threads of the case screws
 screwclearsize=1.75;  // hole size for clearance of the case screws
 
@@ -29,7 +29,7 @@ arduino_vposition=-(boxheight/2-standoff_height-0.5);
 arduino_hposition=-(boxwidth/2-2*postradius-54);
 
 // set the main elements to render
-include_keyholes=false;
+include_keyholes=true;
 include_front=false;
 include_back=false;
 include_top=false;
@@ -51,20 +51,30 @@ backHoles=[["S",-(boxwidth/2-20),-(boxheight-22),6,18,5,2],
 
 // ---- Main layout functions
 
-module MountingPosts()
+module MountingPosts(inside_size)
 {
   postbaseradius = screwheadradius+boxthickness;
   zshift=-(boxheight/2-boxthickness);
   translate([-(boxdepth/2-postinset),boxwidth/2-postradius,zshift])
-    TaperPost(screwclearsize,postbaseradius,boxheight/2+2);
+    TaperPost(inside_size,postbaseradius,boxheight/2+2);
   translate([boxdepth/2-postinset,boxwidth/2-postradius,zshift]) 
-    TaperPost(screwclearsize,postbaseradius,boxheight/2+2);
+    TaperPost(inside_size,postbaseradius,boxheight/2+2);
   translate([-(boxdepth/2-postinset),-(boxwidth/2-postradius),zshift])
-    TaperPost(screwthreadsize,postbaseradius,boxheight/2+2);
+    TaperPost(inside_size,postbaseradius,boxheight/2+2);
   translate([boxdepth/2-postinset,-(boxwidth/2-postradius),zshift])
-    TaperPost(screwthreadsize,postbaseradius,boxheight/2+2);
+    TaperPost(inside_size,postbaseradius,boxheight/2+2);
 }
-
+module MountingPostHoles(inside_size)
+{
+  translate([-(boxdepth/2-postinset), boxwidth/2-postradius,-(boxheight/2+0.5)])
+    cylinder(r=screwheadradius,h=screwheaddepth);
+  translate([boxdepth/2-postinset,boxwidth/2-postradius,-(boxheight/2+0.5)])
+    cylinder(r=screwheadradius,h=screwheaddepth);
+  translate([-(boxdepth/2-postinset), -(boxwidth/2-postradius),-(boxheight/2+0.5)])
+    cylinder(r=screwheadradius,h=screwheaddepth);
+  translate([boxdepth/2-postinset,-(boxwidth/2-postradius),-(boxheight/2+0.5)])
+    cylinder(r=screwheadradius,h=screwheaddepth);
+}
 module BoxRib()
 {
   difference()
@@ -86,7 +96,7 @@ module createOuterbox()
   }
 }
 
-module BoxHalf(addkeyholes)
+module BoxHalf(addkeyholes, istop)
 {
   postgap = postinset-postradius-guidewidth*2 -boxthickness - 2*ribthickness;
   tabstart = guidewidth+boxthickness+2*ribthickness;
@@ -105,18 +115,15 @@ module BoxHalf(addkeyholes)
       translate([boxdepth/2-boxthickness-ribthickness,0,0]) BoxRib();
       translate([-(boxdepth/2-boxthickness-ribthickness),0,0]) BoxRib();
       translate([-(boxdepth/2),0,0]) BoxRib();
-      MountingPosts();
+      MountingPosts(istop ? screwclearsize : screwthreadsize);
     }
     // clean off the mating surface
     translate([0,0,boxheight/4+boxthickness])
       cube([boxdepth+10, boxwidth+10, boxheight/2],true);
     // clean off the outside - remove any leaking bits
     createOuterbox();
-    // add mounting screw holes
-    translate([-(boxdepth/2-postinset), boxwidth/2-postradius,-(boxheight/2+0.5)])
-      cylinder(r=screwheadradius,h=screwheaddepth);
-    translate([boxdepth/2-postinset,boxwidth/2-postradius,-(boxheight/2+0.5)])
-      cylinder(r=screwheadradius,h=screwheaddepth);
+    // add mounting screw holes for top
+    if(istop) MountingPostHoles();
     if(addkeyholes)
     {
       translate([-(boxdepth/2-postinset),boxwidth/2-postradius*5,-(boxheight/2)])
@@ -145,19 +152,19 @@ if(include_arduino_standoffs)
 }
 if(include_bottom)
 {
-  BoxHalf(include_keyholes);
+  BoxHalf(include_keyholes,false);
 }
 if(include_top)
 {
-  translate([0,0,boxthickness*2]) rotate([0,180,180]) BoxHalf(false);
+  translate([0,0,boxthickness*2]) rotate([0,180,180]) BoxHalf(false,true);
 }
 if(include_front)
 {
   translate([-(boxdepth/2-ribthickness),0,0])
-    BoxPanel(boxwidth-0.25,boxheight-1,boxthickness,riblip+1,paneledge,boxradius, frontHoles);
+    BoxPanel(boxwidth-0.25,boxheight-1.5,boxthickness,riblip+1,paneledge,boxradius, frontHoles);
 }
 if(include_back)
 {
   translate([boxdepth/2-ribthickness,0,0])
-    BoxPanel(boxwidth-0.25,boxheight-1,boxthickness,riblip+1,paneledge,boxradius, backHoles);
+    BoxPanel(boxwidth-0.25,boxheight-1.5,boxthickness,riblip+1,paneledge,boxradius, backHoles);
 }

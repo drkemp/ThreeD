@@ -1,0 +1,19 @@
+include  <ringlib.scad>
+include <caseutilities.scad>
+
+
+module body_L1() {
+  dia=130;
+  thick=2;
+  height=40;
+
+  sleeve(dia,dia-2*thick,height);
+  translate([0,0,height-2])suspendedring(dia+2*thick,dia,6,false);
+
+  // motor stops
+  rotate([0,0,150])translate([dia/2-thick,0,height-15]) support(8,8,12);
+  rotate([0,0,-150])translate([dia/2-thick,0,height-15]) support(8,8,12);
+
+}
+body_L1($fa=6);
+

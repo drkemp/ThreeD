@@ -1,12 +1,13 @@
-$fa=5;
+$fa=2;
+
 include_symbol="TSTAR"; // CIRCLE,TSTAR, LEAF
 
-module curve_cut()
+module curve_cut(r)
 {
   difference()
   {
-    cylinder(r=215,h=200);
-    translate([0,0,-1]) cylinder(r=200,h=215);
+    cylinder(r=r,h=200);
+    translate([0,0,-1]) cylinder(r=r-15,h=202);
   }
 }
 
@@ -59,12 +60,13 @@ scale([1, 1, 1])
   difference()
   {
     badge();
-//    translate([0,45,-190]) rotate([0,90,0]) curve_cut();
+    translate([0,40,-(230-21)]) rotate([0,90,0]) curve_cut(230);
     translate([30.5,40,4]) symbol();
-    translate([30,32,-0]) cube([26,6,3],center=true);
+    translate([30,32,0]) cube([26,6,3],center=true);
   }
-  translate([22,32,0]) cylinder(r=1,h=6);
-  translate([28,32,0]) cylinder(r=1,h=6);
-  translate([34,32,0]) cylinder(r=1,h=6);
+  translate([22,32,0]) cylinder(r=1,h=3.1);
+  translate([28,32,0]) cylinder(r=1,h=3.1);
+  translate([34,32,0]) cylinder(r=1,h=3.1);
+
 }
 

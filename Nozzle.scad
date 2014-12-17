@@ -12,11 +12,12 @@ module hexblock(width, length)
 module NPT_fitting(nutsize, flength)
 {
   mlength=flength*25.4;
+  th= .407;
   difference()
   {
     hexblock(nutsize,mlength);
-    translate([0,0,-mlength/2-1])cylinder(r=.1*25.4,h=mlength+3);
-    english_thread(diameter=.407,threads_per_inch=27,length=flength,internal=true);
+    translate([0,0,-mlength/2-1])cylinder(r=(th*.88/2)*25.4,h=mlength+3);
+    english_thread(diameter=th, threads_per_inch=27,length=flength,internal=true);
   }
 }
 module pipe(inside,outside,length)
@@ -29,19 +30,19 @@ module pipe(inside,outside,length)
 }
 module base(depth,height,width)
 {
-  nutsize=depth;
+  nutsize=(5/8)*25.4;
   nozrad=2;
   nozinsiderad=1;
   nozlen=10;
   fitposn=width/2-depth/2-2;
-  nozposn=-(width/2-nozrad-1);
+  nozposn=-(width/2-nozrad-4);
   translate([0,0,height/2])
   difference()
   {
     union()
     {
       cube([depth,width,height],true);
-      translate([0,fitposn,height/2+4]) NPT_fitting(nutsize, 3/8);
+      translate([0,fitposn,height/2+4]) NPT_fitting(nutsize, 1/2);
       translate([0,nozposn,height/2]) cylinder(r=nozrad,h=10,$fn=30);
       translate([0,0,-4]) cube([depth,width,4],true);
     }
@@ -54,4 +55,4 @@ module base(depth,height,width)
     }
   }
 }
-base((1/2)*25.4, 4, 35);
+base((5/8)*25.4, 6, 35);

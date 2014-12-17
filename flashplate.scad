@@ -1,7 +1,7 @@
 
-gap =12.4;
+gap =12.2;
 guide=4;
-flange=16;
+flange=15.5;
 
 depth=17;
 
@@ -15,13 +15,17 @@ module wedge(w,t)
 
 difference(){
   union() {
-    cube([gap,depth,2], center=true);
+    cube([gap,depth,2.5], center=true);
     translate([0,0,-2]) cube([flange,depth,2], center=true);
-    translate([0,0,2]) wedge(15.25,2);
+    translate([0,0,3.5]) wedge(20,6);
   }
   translate([0,0,-2]) cube([guide,depth,2], center=true);
   translate([flange/2,0,-3]) cube([2,depth,.5], center=true);
   translate([-flange/2,0,-3]) cube([2,depth,.5], center=true);
+
+  translate([-flange/2+1,depth/4,-1]) cube([2,depth/2,.5], center=true);
+  translate([+flange/2-1,depth/4,-1]) cube([2,depth/2,.5], center=true);
+
 
   // 3.5mm pin hole 15mm from back
   translate([0,depth/2-15,-3]) cylinder(r=3.5/2, h=6, center=true, $fn=30);
