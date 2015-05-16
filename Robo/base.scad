@@ -1,26 +1,64 @@
 // track base
-blength=210;
-bwidth=225;
+blength=178;
+bwidth=214; //overall width
 bheight=90;
-bwheel=55;
-twidth=50;
+bwheel=38;
+twidth=41; //track width
+tthick=2.5; // track thick
 
+module wheel(rot) {
+  ww = twidth-10;
+  translate([0,0,twidth/2]) rotate(rot) translate([0,0,-15]){
+    difference() {
+      cylinder(r=bwheel/2,h=ww);
+      translate([0,0,2])cylinder(r=bwheel/2,h=ww-4);
+    }
+    translate([0,0,5])cylinder(r=2,h=twidth);
+  }
+}
+module drivewheel(rot) {
+  ww = twidth-12;
+  translate([0,0,twidth/2]) rotate(rot) translate([0,0,-15]){
+    difference() {
+      cylinder(r=bwheel/2,h=ww);
+      translate([0,0,2])cylinder(r=bwheel/2,h=ww-4);
+    }
+    translate([0,0,5])cylinder(r=2,h=twidth);
+  }
+}
 module track() {
-  translate([-(blength-1.75*bwheel),twidth/2,bwheel/2])
-  rotate([90,0,0]) {
+  difference() {
+    hull() {
+      cylinder(r=bwheel/2+tthick,h=twidth);
+      translate([blength-bwheel,0,0]) cylinder(r=bwheel/2+tthick,h=twidth);
+      translate([blength-2*bwheel,bwheel*1.25,0]) cylinder(r=bwheel/2+tthick,h=twidth);
+    }
     hull() {
       cylinder(r=bwheel/2,h=twidth);
       translate([blength-bwheel,0,0]) cylinder(r=bwheel/2,h=twidth);
-      translate([blength-1.75*bwheel,bwheel/2,0]) cylinder(r=bwheel/2,h=twidth);
+      translate([blength-2*bwheel,bwheel*1.25,0]) cylinder(r=bwheel/2,h=twidth);
     }
+  }
+}
+module trackassy(rot) {
+//  rot =[0,0,0];
+  translate([-(blength-2*bwheel),twidth/2,0])
+  rotate([90,0,0]) {
+   track();
+//    hull() {
+      wheel(rot);
+      translate([blength-bwheel,0,0]) wheel(rot);
+      translate([blength/2-bwheel/2,0,0]) wheel(rot);
+      translate([blength-2*bwheel,bwheel*1.25,0])  drivewheel(rot);
+//    }
   }
 }
 module drive() {
   translate([0,0,0])
   rotate([90,0,0]) {
-    cylinder(r=10,h=45);
-    translate([0,0,-20]) cylinder(r=2,h=45);
-    translate([-15,-10,0]) cube([30,40,3]);
+    cylinder(r=17,h=45);
+    translate([0,8,-20]) cylinder(r=2,h=45);
+//    translate([-15,-10,0]) cube([30,40,3]);
   }
 }
 
@@ -32,17 +70,25 @@ module mountbar() {
     translate([blength-20,0,2]) cube([20,5,10]);
   }
 }
+module sideframe() {
+ rotate([90,0,0]) linear_extrude(height=2,convexity = 10)
+  polygon([[0,0],[160,0],[160,12],[85,38],[85,41],
+         [128,69],[135,69],[135,61],[135,61],[160,61],
+         [160,82],[28,82],[17,49],[22,41],[22,35],[0,12]]);
+}
+
 module mountbase() {
   bedwidth=(bwidth-2*twidth)-20;
-  translate([-blength+bwheel,-bedwidth/2,bheight]) mountbar();
-  translate([-blength+bwheel,bedwidth/2,bheight]) mountbar();
+//  translate([-blength+bwheel,-bedwidth/2,bheight]) mountbar();
+//  translate([-blength+bwheel,bedwidth/2,bheight]) mountbar();
   translate([0,bedwidth/2+5,bwheel]) drive();
   translate([0,-bedwidth/2-5,bwheel]) rotate([0,0,180]) drive();
-  translate([-145,-bedwidth/2,bheight-14]) cube([20,bedwidth,2]);
-  translate([-65,-bedwidth/2,bheight-14]) cube([30,bedwidth,2]);
 
-  translate([0,-(bwidth-twidth)/2,0]) track();
-  translate([0,(bwidth-twidth)/2,0]) track();
+  translate([-112,-bedwidth/2-4,bheight-20]) cube([blength-46,bedwidth+8,2]);
+//  translate([-65,-bedwidth/2,bheight-14]) cube([30,bedwidth,2]);
+
+  translate([0,-(bwidth-twidth)/2,-1.5]) trackassy([0,180,0]);
+  translate([0,(bwidth-twidth)/2,-1.5]) trackassy([0,0,0]);
 
 }
 // 4 of 18650 battery
@@ -77,16 +123,42 @@ module tub(h) {
     }
   }
 }
+module frontsupport() {
+  bedwidth=(bwidth-2*twidth)-20;
+  translate([-120,-bedwidth/2-4,bheight-48]) cube([60,bedwidth+8,2]);
+}
 
 module botbase() {
-  translate([0,0,bheight]) tub(35);
+//  translate([0,0,bheight]) tub(35);
   mountbase();
-  translate([-80,0,bheight-14]) battbox(125,110,45);
-  translate([0,0,bheight+36]) cylinder(r=70,h=20);
-
+  translate([-70,0,bheight-48]) battbox(85,84,43);
+//  translate([0,0,bheight+36]) cylinder(r=70,h=20);
+  translate([48,-62,-10]) rotate([0,0,180]) sideframe();
+  translate([48,60,-10]) rotate([0,0,180]) sideframe();
 }
 //translate([0,0,-1]) cylinder(r=1,h=90);
 
 botbase();
-translate([-120,9,42 ]) battpack();
+translate([-70,9,10 ]) battpack();
 
+frontsupport();
+
+module link() {
+  difference() {
+    union() {
+      cube([3.5,42,5]);
+      translate([0,0,2.5]) cube([13,42,2.5]);
+    }
+    translate([10,4,0]) cube([3,4,10]);
+    translate([10,14,0]) cube([3,4,10]);
+    translate([10,24,0]) cube([3,4,10]);
+    translate([10,34,0]) cube([3,4,10]);
+
+    translate([0,0,0]) cube([3,4,10]);
+    translate([0,10,0]) cube([3,4,10]);
+    translate([0,20,0]) cube([3,4,10]);
+    translate([0,30,0]) cube([3,4,10]);
+    translate([0,40,0]) cube([3,4,10]);
+  }
+}
+//link();

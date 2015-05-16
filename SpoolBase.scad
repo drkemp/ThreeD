@@ -39,8 +39,8 @@ module Mount(base, height,width,post,strut)
       cylinder(r=4,h=height);
 
       // post mount (not adjustable)
-      translate([post,0,0]) cylinder(r=9,h=20);
-      translate([-post,0,0]) cylinder(r=9,h=20);
+      translate([post,0,0]) cylinder(r=9,h=25);
+      translate([-post,0,0]) cylinder(r=9,h=25);
       translate([-post,-web/2,0])cube([2*post,web,height]);
       // side webs
       translate([post-web/2,0,0])Beam([web,width-strut,sideheight],"left");
@@ -86,13 +86,13 @@ module Mount(base, height,width,post,strut)
         cylinder(r=strut,h=base);
     }
     // drill the holes for the posts
-    translate([post,0,0]) cylinder(r=6.5,h=12);
-    translate([post,0,12]) cylinder(r1=6.5,r2=1,h=8);
-    translate([-post,0,0]) cylinder(r=6.5,h=12);
-    translate([-post,0,12]) cylinder(r1=6.5,r2=1,h=8);
+    translate([post,0,0]) cylinder(r=6.5,h=17);
+    translate([post,0,17]) cylinder(r1=6.5,r2=2,h=8);
+    translate([-post,0,0]) cylinder(r=6.5,h=17);
+    translate([-post,0,17]) cylinder(r1=6.5,r2=2,h=8);
 // tiny slot for tolerance
-    translate([-post-.15,0,0]) cylinder(r=6.5,h=12);
-    translate([-post-.15,0,12]) cylinder(r1=6.5,r2=1,h=8);
+    translate([-post-.15,0,0]) cylinder(r=6.5,h=17);
+    translate([-post-.15,0,17]) cylinder(r1=6.5,r2=2,h=8);
 
       translate([-(post-strut/2-web*3/2),-(width-strut),0]) rotate([0,0,90])
         cylinder(r=strut/2,h=base);
@@ -106,7 +106,7 @@ module Mount(base, height,width,post,strut)
 }
 module elbow(dia, rad, start,end)
 {
-  for(i=[start:5:end])
+  for(i=[start:3:end])
   {
      translate([rad*(1-cos(i)),0,rad*sin(i)])
      rotate([0,i,0]) cylinder(r=dia/2, h=4);
@@ -154,6 +154,6 @@ baseheight=22;
 strut=5;
 postwidth = 82-12;
 reelwidth=(95+4*strut)/2;
-reelheight=117;
+reelheight=112;
 Mount(baseheight,4, reelwidth, postwidth/2, strut);
 translate([0,0,baseheight]) ReelSupport(reelwidth, postwidth/2, strut, reelheight);
