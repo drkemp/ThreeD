@@ -1,5 +1,5 @@
 
-$fn=30;
+$fn=50;
 
 module hexnut(size, depth) {
   cs=size*2;
@@ -24,11 +24,11 @@ module plate(l,t) {
         cylinder(r=25,h=t);
       }
     }
-    translate([0,50,-1]) cylinder(r=3.75,h=10);
+    translate([0,60,-1]) cylinder(r=3.75,h=10);
     translate([0,0,-1]) cylinder(r=3.75,h=10);
-translate([0,0,2]) hexnut(12,5);
+translate([0,0,.5]) hexnut(12,5);
   }
 }
 
 
-plate(100,7);
+plate(105,5);

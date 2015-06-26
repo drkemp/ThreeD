@@ -1,4 +1,5 @@
 // track base
+$fn=30;
 blength=178;
 bwidth=214; //overall width
 bheight=90;
@@ -104,7 +105,7 @@ module battassy() {
 module battpack() {
   rotate([0,0,90]) {
     translate([0,0,22]) battassy();
-    battassy();
+//    battassy();
   }
 }
 module battbox(w,l,t) {
@@ -131,12 +132,17 @@ module frontsupport() {
 module botbase() {
 //  translate([0,0,bheight]) tub(35);
   mountbase();
-  translate([-70,0,bheight-48]) battbox(85,84,43);
+  translate([-70,0,bheight-48]) battbox(85,84,23);
 //  translate([0,0,bheight+36]) cylinder(r=70,h=20);
   translate([48,-62,-10]) rotate([0,0,180]) sideframe();
   translate([48,60,-10]) rotate([0,0,180]) sideframe();
 }
 //translate([0,0,-1]) cylinder(r=1,h=90);
+
+module sidecavity(w,l,h) {
+  scale([1,1,h/w]) rotate([0,90,90]) cylinder(r=w/2,h=l);
+}
+translate([-40,-62.5,50 ])sidecavity(195,125,100);
 
 botbase();
 translate([-70,9,10 ]) battpack();
