@@ -159,7 +159,7 @@ module screentouch() {
         shape(3,[[1,3],[1,18],[4,21],[6.5,22],[20,22],[20,19],[14,19],
                  [14,16],[20,16],[20,8],[16,8],[17,13],[10,13],[3,3]]);
       translate([-2,-29,25]) rotate([0,90,0]) cylinder(r=3.5,h=.5); // spacer
-      translate([-2,-29,25]) rotate([0,90,0]) cylinder(r=2,h=4.5); // axis
+      translate([-2,-29,25]) rotate([0,90,0]) cylinder(r=2,h=4.0); // axis
       translate([-2,-32.5,17])  cube([.5,7,8]); // spacer
       translate([-2,-23,28]) cube([7,9,2]);
     }
@@ -246,10 +246,9 @@ module print() {
     translate([-34,-15,32]) rotate([180,0,0]) lensring();
     translate([-20,15,32]) rotate([180,0,0]) lensring();
     translate([31,-28,80.75]) rotate([90,0,60])button();
-    translate([23,5,28]) rotate([0,90,0]) screentouch();
+    translate([23,5,27]) rotate([0,90,0]) screentouch();
     base();
   }
 }
 print();
 //test();
-
